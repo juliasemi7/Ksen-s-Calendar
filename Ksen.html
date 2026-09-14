@@ -62,7 +62,7 @@
 <body class="py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto space-y-6">
         
-        <!-- Minimal Concise Centered Header -->
+        <!-- Header -->
         <header class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm flex flex-col items-center justify-center text-center gap-2">
             <span class="px-3.5 py-1 rounded-lg bg-indigo-600 text-white font-extrabold text-sm tracking-wide">2026</span>
             <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Ksen's Calendar</h1>
@@ -77,10 +77,6 @@
         <main>
             <div id="calendar-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
         </main>
-
-        <footer class="text-center py-4 text-xs font-medium text-slate-400">
-            © 2026 Ksen's Calendar
-        </footer>
     </div>
 
     <script>
@@ -131,12 +127,12 @@
                 "2026-06-22","2026-06-23","2026-06-24","2026-06-25","2026-06-26",
                 "2026-06-29","2026-06-30","2026-07-01","2026-07-02","2026-07-03"
             ]},
-            { id: 7, name: "Пакет 7 (Сентябрь)", period: "02 сен – 29 сен (8 занятий)", colorClass: "pkg-7", days: [
-                "2026-09-02","2026-09-03","2026-09-04",
+            { id: 7, name: "Пакет 7 (Авг - Сен)", period: "28 авг – 24 сен (8 занятий)", colorClass: "pkg-7", days: [
+                "2026-08-28", "2026-08-31",
+                "2026-09-01","2026-09-02","2026-09-03","2026-09-04",
                 "2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11",
                 "2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18",
-                "2026-09-21","2026-09-22","2026-09-23","2026-09-24","2026-09-25",
-                "2026-09-28","2026-09-29"
+                "2026-09-21","2026-09-22","2026-09-23","2026-09-24"
             ]}
         ];
 
@@ -153,8 +149,15 @@
             "2026-05-08","2026-05-13","2026-05-15","2026-05-20","2026-05-22","2026-05-27","2026-05-29","2026-06-03",
             // Пакет 6
             "2026-06-05","2026-06-10","2026-06-17","2026-06-19","2026-06-24","2026-06-26","2026-07-01","2026-07-03",
-            // Пакет 7 (Сентябрь: Среды и Пятницы)
-            "2026-09-02","2026-09-04","2026-09-09","2026-09-11","2026-09-16","2026-09-18","2026-09-23","2026-09-25"
+            // Пакет 7 (Старт с 28 авг [Пт], далее Понедельники и Четверги)
+            "2026-08-28",
+            "2026-08-31",
+            "2026-09-03",
+            "2026-09-07",
+            "2026-09-10",
+            "2026-09-14",
+            "2026-09-17",
+            "2026-09-21"
         ];
 
         function getDaysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
@@ -216,14 +219,13 @@
 
                     let statusText = [];
                     if (pkg) statusText.push(`${pkg.name}`);
-                    if (hasLes) statusText.push("Занятие Ксении (Ср / Пт)");
+                    if (hasLes) statusText.push("Занятие Ксении");
                     if (isWk && !pkg) statusText.push("Выходной");
                     if (statusText.length === 0) statusText.push("Свободный день");
 
                     const fullStatus = statusText.join(" • ");
                     const readableDate = `${day} ${monthNames[m]} ${y}`;
 
-                    // Safe attribute escaping via standard dataset HTML attributes
                     html += `
                         <div class="${classes}" 
                              data-date="${readableDate}"
@@ -261,7 +263,6 @@
             }
         }
 
-        // Event delegation for hover state handling without string escaping risks
         const container = document.getElementById("calendar-container");
         container.addEventListener("mouseover", (e) => {
             const dayCell = e.target.closest(".day-cell");
